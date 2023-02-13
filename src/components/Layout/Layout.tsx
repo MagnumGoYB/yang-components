@@ -1,9 +1,9 @@
 import classNames from 'classnames'
 import {
   FC,
-  PointerEventHandler,
   PropsWithChildren,
   ReactNode,
+  createContext,
   useCallback,
   useEffect,
   useRef,
@@ -12,205 +12,194 @@ import {
 import { HiMenuAlt2, HiOutlineChevronDoubleRight } from 'react-icons/hi'
 import { useMedia } from 'react-use'
 
-type LayoutProps = {
-  sidebar?: ReactNode
-  header?: ReactNode
+import { sleep } from '@/utils'
+
+import Sidebar2 from './Sidebar'
+import { Menu, MenuItem, MenuItems } from '../Menu'
+
+export type User = {
+  name: string
+  avatar?: string
 }
 
-const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
-  const { sidebar, header, children } = props
+export type LayoutProps = {
+  logo?: ReactNode
+  header?: ReactNode
+  menu: MenuItems
+  menuDefaultKey?: MenuItem['key']
+  user?: User
+}
 
-  const [draging, setDraging] = useState<boolean>(false)
-  const [hide, setHide] = useState<boolean>(false)
-  const [hoverToggle, setHoverToggle] = useState<boolean>(false)
-  const [hoverCloseing, setHoverCloseing] = useState<boolean>(false)
-  const [sidebarWidth, setSidebarWidth] = useState<number>()
+type LayoutContextType = {
+  isMd?: boolean
+  isCollapsed?: boolean
+  isHoverPower?: boolean
+  width?: number
+  maxWidth: number
+  minWidth: number
+  toggleButtonRef: HTMLButtonElement | null
+  setWidth?: (width?: number) => void
+  setIsCollapsed?: (isCollapsed: boolean) => void
+  setIsHoverPower?: (isHoverPower: boolean) => void
+}
+
+const maxWidth = 400
+const minWidth = 230
+
+export const LayoutContext = createContext<LayoutContextType>({
+  toggleButtonRef: null,
+  maxWidth,
+  minWidth
+})
+
+const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
+  const { logo, menu, menuDefaultKey, user, header, children } = props
 
   const sidebarRef = useRef<HTMLDivElement>(null)
-  const resizeDragLineRef = useRef<HTMLDivElement>(null)
-  const toggleSiderbarRef = useRef<HTMLButtonElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
-  const dragStartX = useRef<number>()
-  const dragEndX = useRef<number>()
-  const maxSiderWidth = useRef(400).current
-  const minSiderWidth = useRef(230).current
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
+  const [isHoverPower, setIsHoverPower] = useState<boolean>(false)
+  const [width, setWidth] = useState<number>()
 
-  const md = useMedia('(min-width: 768px)')
+  const isMd = useMedia('(min-width: 768px)')
 
-  const onResizeSidebarStart: PointerEventHandler<HTMLDivElement> = (e) => {
-    dragStartX.current = e.nativeEvent.x
-    setDraging(true)
-    e.preventDefault()
-  }
+  const isResized = !!width && width <= maxWidth && width >= minWidth
 
-  const onResizeSidebarMove = useCallback(
-    (e: PointerEvent) => {
-      if (!draging) return
-      if (!sidebarRef.current) return
-      if (!dragStartX.current) return
-      dragEndX.current = e.x
-      const x = Math.ceil(e.x)
-      const movementX = Math.ceil(e.movementX)
-      if (x <= maxSiderWidth && x >= minSiderWidth) {
-        setSidebarWidth(x)
-      }
-      if (
-        dragStartX.current < dragEndX.current &&
-        x > maxSiderWidth &&
-        x - maxSiderWidth >= movementX
-      ) {
-        setSidebarWidth(maxSiderWidth)
-      }
-      if (
-        dragStartX.current > dragEndX.current &&
-        x < minSiderWidth &&
-        minSiderWidth - x >= movementX
-      ) {
-        setSidebarWidth(minSiderWidth)
-        if (x < 150) {
-          setDraging(false)
-          setHide(true)
-        }
-      }
-
-      e.preventDefault()
-    },
-    [draging, maxSiderWidth, minSiderWidth]
-  )
-
-  const onResizeSidebarEnd = useCallback(
-    (e: PointerEvent) => {
-      if (!draging) return
-      setDraging(false)
-      e.preventDefault()
-    },
-    [draging]
-  )
-
-  const onResetSidebarWith = () => setSidebarWidth(undefined)
-
-  const hoverShowSidebar = () => {
-    if (!hide) return
-    setHoverCloseing(false)
-    setHoverToggle(true)
-  }
-
-  const hoverHideSidebar = useCallback(() => {
-    if (!hide) return
-    if (hoverCloseing) return
-    setHoverToggle(false)
-    setHoverCloseing(true)
-    setTimeout(() => {
-      setHoverCloseing(false)
-    }, 500)
-  }, [hide, hoverCloseing])
-
-  const showSiderbar = () => {
-    if (!hide) return
-    setHide(false)
-    hoverHideSidebar()
-  }
-
-  useEffect(() => {
-    if (!sidebarRef || !resizeDragLineRef || hide || hoverToggle) return
-
-    document.addEventListener('pointermove', onResizeSidebarMove)
-    document.addEventListener('pointerup', onResizeSidebarEnd)
-
-    return () => {
-      document.removeEventListener('pointermove', onResizeSidebarMove)
-      document.removeEventListener('pointerup', onResizeSidebarEnd)
-    }
-  }, [onResizeSidebarMove, onResizeSidebarEnd, hide, hoverToggle])
-
-  useEffect(() => {
-    if (!sidebarRef.current || !toggleSiderbarRef.current) return
-    if (!hide || !hoverToggle) return
-    const listener = (e: PointerEvent) => {
-      if (
-        !toggleSiderbarRef.current?.contains(e.target as HTMLElement) &&
-        !sidebarRef.current?.contains(e.target as HTMLElement)
-      ) {
-        hoverHideSidebar()
-      }
-    }
-    document.addEventListener('pointermove', listener)
-
-    return () => {
-      document.removeEventListener('pointermove', listener)
-    }
-  }, [hide, hoverHideSidebar, hoverToggle, sidebarRef, toggleSiderbarRef])
-
-  return (
+  const renderSidebar = () => (
     <>
-      <div
-        ref={sidebarRef}
-        style={md ? { width: sidebarWidth } : {}}
-        className={classNames(
-          'hidden bg-slate-50 md:flex md:w-64 md:flex-col md:fixed md:inset-y-0',
-          {
-            '-translate-x-[110%]': hide && !hoverToggle,
-            'md:mt-14 md:z-10 md:border-r md:border-t md:border-gray-200 shadow-[0_5px_17px_rgba(12,12,12,0.14)] rounded-tr-md transition-transform duration-500':
-              hoverToggle || hoverCloseing
-          }
-        )}
-      >
-        <div
-          className={classNames('flex flex-col flex-grow overflow-y-auto', {
-            'border-r border-gray-200': !hide
-          })}
-        >
-          {sidebar}
+      <div className="flex-1 h-0">
+        <div className="btn btn-ghost btn-block normal-case flex-shrink-0 flex items-center justify-start px-4 h-16 rounded-none border-t-0 border-r-0 border-l-0 border-b border-base-300 hover:bg-base-100 hover:border-base-300">
+          {logo}
         </div>
-        <div
-          ref={resizeDragLineRef}
-          onPointerDown={onResizeSidebarStart}
-          onDoubleClick={onResetSidebarWith}
-          className={classNames(
-            'absolute touch-none select-none h-full w-[10px] -right-[8px] cursor-col-resize after:absolute after:opacity-0 after:w-[3px] after:h-full after:right-[6px] after:bg-blue-500 after:z-10 after:transition hover:after:opacity-100',
-            { 'after:opacity-100': draging, hidden: hoverToggle }
-          )}
+        <Menu
+          className="mt-5 space-y-1 px-3"
+          defaultKey={menuDefaultKey}
+          items={menu}
         />
       </div>
-
-      <div
-        style={
-          md &&
-          sidebarWidth &&
-          sidebarWidth <= maxSiderWidth &&
-          sidebarWidth >= minSiderWidth
-            ? { paddingLeft: hide ? 0 : sidebarWidth }
-            : {}
-        }
-        className="md:pl-64 flex flex-col flex-1"
-      >
-        <header className="flex flex-shrink-0 h-16 bg-white shadow-sm border-b border-gray-200">
-          <button
-            type="button"
-            className={classNames(
-              'p-4 rounded text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500',
-              { 'md:hidden': !hide }
-            )}
-            onClick={showSiderbar}
-            ref={toggleSiderbarRef}
-            onPointerEnter={hoverShowSidebar}
-          >
-            {hoverToggle ? (
-              <HiOutlineChevronDoubleRight className="h-6 w-6" />
-            ) : (
-              <HiMenuAlt2 className="h-6 w-6" />
-            )}
-          </button>
-          <div className="flex-1 px-4 flex justify-between">{header}</div>
-        </header>
-
-        <main>
-          <div className="py-6">
-            <div className="mx-auto px-4 sm:px-6 md:px-8">{children}</div>
-          </div>
-        </main>
-      </div>
+      {user && (
+        <div className="flex-shrink-0 flex border-t border-base-300">
+          <a className="group rounded-none flex items-center justify-start text-left btn btn-ghost btn-block h-auto p-4 normal-case hover:bg-base-100">
+            <img
+              className="inline-block h-10 w-10 rounded-full"
+              src={user.avatar}
+              alt={user.name}
+            />
+            <div className="ml-3">
+              <p className="text-base font-medium">{user.name}</p>
+              <p className="text-sm font-normal">View profile</p>
+            </div>
+          </a>
+        </div>
+      )}
     </>
+  )
+
+  const onClickToggleButton = async () => {
+    setWidth(undefined)
+    if (isHoverPower) {
+      setIsCollapsed(false)
+      setIsHoverPower(false)
+    } else {
+      setIsCollapsed(!isCollapsed)
+      await sleep(500)
+      setIsHoverPower(!isCollapsed)
+    }
+  }
+
+  const onPointerMove = useCallback(
+    (e: PointerEvent) => {
+      if (!isHoverPower) return
+      if (
+        toggleButtonRef.current?.contains(e.target as HTMLElement) ||
+        sidebarRef.current?.contains(e.target as HTMLElement)
+      ) {
+        setIsCollapsed(false)
+      } else {
+        setIsCollapsed(true)
+      }
+      e.preventDefault()
+    },
+    [isHoverPower]
+  )
+
+  useEffect(() => {
+    document.addEventListener('pointermove', onPointerMove)
+    return () => {
+      document.removeEventListener('pointermove', onPointerMove)
+    }
+  }, [onPointerMove])
+
+  return (
+    <LayoutContext.Provider
+      value={{
+        isMd,
+        isCollapsed,
+        isHoverPower,
+        width,
+        maxWidth,
+        minWidth,
+        toggleButtonRef: toggleButtonRef.current,
+        setWidth,
+        setIsCollapsed,
+        setIsHoverPower
+      }}
+    >
+      <div className="drawer">
+        <input id="sidebar" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content">
+          {isMd && <Sidebar2 ref={sidebarRef}>{renderSidebar()}</Sidebar2>}
+
+          <div
+            style={
+              isMd && isResized && !isCollapsed && !isHoverPower
+                ? { paddingLeft: width }
+                : {}
+            }
+            className={classNames('flex flex-col flex-1', {
+              'md:pl-64': !isCollapsed && !isHoverPower
+            })}
+          >
+            <header className="flex flex-shrink-0 h-16 bg-base-100 shadow-sm border-b border-base-300">
+              {isMd ? (
+                <button
+                  type="button"
+                  className="h-16 w-16 btn btn-ghost hover:bg-transparent focus:bg-transparent"
+                  ref={toggleButtonRef}
+                  onClick={onClickToggleButton}
+                >
+                  {isCollapsed ? (
+                    <HiOutlineChevronDoubleRight className="h-6 w-6" />
+                  ) : (
+                    <HiMenuAlt2 className="h-6 w-6" />
+                  )}
+                </button>
+              ) : (
+                <label
+                  htmlFor="sidebar"
+                  className="h-16 w-16 btn btn-ghost drawer-button hover:bg-transparent focus:bg-transparent "
+                >
+                  <HiMenuAlt2 className="h-6 w-6" />
+                </label>
+              )}
+              <div className="flex-1 px-4 flex justify-between">{header}</div>
+            </header>
+
+            <main>
+              <div className="py-6">
+                <div className="mx-auto px-4 sm:px-6 md:px-8">{children}</div>
+              </div>
+            </main>
+          </div>
+        </div>
+
+        <div className="drawer-side">
+          <label htmlFor="sidebar" className="drawer-overlay" />
+          <Sidebar2>{renderSidebar()}</Sidebar2>
+        </div>
+      </div>
+    </LayoutContext.Provider>
   )
 }
 
