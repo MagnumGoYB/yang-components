@@ -3,6 +3,8 @@ import { HiOutlineHome, HiSearch } from 'react-icons/hi'
 
 import { Layout } from '@/components/Layout'
 
+import { Avatar } from './components/Avatar'
+
 const navigation = [
   {
     data: [
@@ -24,14 +26,22 @@ const App: FC = () => {
     <Layout
       logo={
         <>
-          <div className="flex items-center justify-center h-8 w-8 rounded font-semibold bg-primary text-primary-content">
-            T
-          </div>
+          <Avatar
+            shape="square"
+            size="sm"
+            alt="Tailwindcss"
+            className="bg-primary text-primary-content font-semibold"
+          />
           <span className="font-semibold font-mono ml-3">Tailwindcss</span>
         </>
       }
       menu={navigation}
-      user={{ name: '123' }}
+      user={{
+        name: 'LunTai',
+        avatar:
+          'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
+        subTitle: 'admin'
+      }}
     >
       <h1 className="text-2xl font-semibold text-gray-900">Hello World</h1>
     </Layout>

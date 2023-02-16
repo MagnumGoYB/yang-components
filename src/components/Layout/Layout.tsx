@@ -9,17 +9,23 @@ import {
   useRef,
   useState
 } from 'react'
-import { HiMenuAlt2, HiOutlineChevronDoubleRight } from 'react-icons/hi'
+import {
+  HiMenuAlt2,
+  HiOutlineChevronDoubleRight,
+  HiSelector
+} from 'react-icons/hi'
 import { useMedia } from 'react-use'
 
 import { sleep } from '@/utils'
 
 import Sidebar2 from './Sidebar'
+import { Avatar } from '../Avatar'
 import { Menu, MenuItem, MenuItems } from '../Menu'
 
 export type User = {
   name: string
   avatar?: string
+  subTitle?: string
 }
 
 export type LayoutProps = {
@@ -80,16 +86,21 @@ const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
       </div>
       {user && (
         <div className="flex-shrink-0 flex border-t border-base-300">
-          <a className="group rounded-none flex items-center justify-start text-left btn btn-ghost btn-block h-auto p-4 normal-case hover:bg-base-100">
-            <img
-              className="inline-block h-10 w-10 rounded-full"
-              src={user.avatar}
-              alt={user.name}
-            />
-            <div className="ml-3">
-              <p className="text-base font-medium">{user.name}</p>
-              <p className="text-sm font-normal">View profile</p>
+          <a className="group rounded-none flex items-center justify-between btn btn-ghost btn-block h-auto p-4 normal-case hover:bg-base-100">
+            <div className="flex items-center justify-start text-left">
+              <Avatar
+                className={classNames('inline-block h-10 w-10', {
+                  'bg-base-300': !user.avatar
+                })}
+                src={user.avatar}
+                alt={user.name}
+              />
+              <div className="ml-3">
+                <p className="text-base font-medium">{user.name}</p>
+                <p className="text-sm font-normal">{user.subTitle}</p>
+              </div>
             </div>
+            <HiSelector className="h-4 w-4" />
           </a>
         </div>
       )}
