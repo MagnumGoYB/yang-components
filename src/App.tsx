@@ -1,10 +1,12 @@
 import { FC } from 'react'
 import { HiOutlineHome, HiOutlineMenu, HiSearch } from 'react-icons/hi'
 
-import { Layout } from '@/components/Layout'
+import Avatar from '@/components/Avatar'
+import Layout from '@/components/Layout'
+import { MenuItems } from '@/components/Menu'
 
-import { Avatar } from './components/Avatar'
-import { MenuItems } from './components/Menu'
+const avatar =
+  'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg'
 
 const navigation: MenuItems = [
   {
@@ -36,29 +38,47 @@ const navigation: MenuItems = [
   }
 ]
 
+const Logo = (
+  <>
+    <Avatar
+      shape="square"
+      size="sm"
+      alt="Dev.Components"
+      className="bg-primary text-primary-content font-semibold"
+    />
+    <span className="font-semibold font-mono ml-3">Dev.Components</span>
+  </>
+)
+
 const App: FC = () => {
   return (
     <Layout
-      logo={
-        <>
-          <Avatar
-            shape="square"
-            size="sm"
-            alt="Tailwindcss"
-            className="bg-primary text-primary-content font-semibold"
-          />
-          <span className="font-semibold font-mono ml-3">Tailwindcss</span>
-        </>
-      }
+      logo={Logo}
       menu={navigation}
       user={{
+        avatar,
         name: 'LunTai',
-        avatar:
-          'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
         subTitle: 'admin'
       }}
     >
-      <h1 className="text-2xl font-semibold text-gray-900">Hello World</h1>
+      <div className="flex gap-2">
+        <Avatar src={avatar} />
+        <Avatar src={avatar} shape="square" />
+        <Avatar src={avatar} size="lg" />
+        <Avatar alt="Ssss" />
+        <Avatar src={avatar} size="sm" />
+      </div>
+      <div className="mt-4">
+        <Avatar.Group
+          max={3}
+          items={[
+            { src: avatar },
+            { src: avatar },
+            { src: avatar },
+            { src: avatar }
+          ]}
+        />
+      </div>
     </Layout>
   )
 }

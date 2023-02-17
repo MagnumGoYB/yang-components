@@ -14,10 +14,10 @@ import { useMedia } from 'react-use'
 
 import { sleep } from '@/utils'
 
-import Sidebar2 from './Sidebar'
+import Menu, { MenuItem, MenuItems } from '../Menu'
+import Sidebar from './Sidebar'
 import ThemeToggle from './ThemeToggle'
 import User from './User'
-import { Menu, MenuItem, MenuItems } from '../Menu'
 
 export type User = {
   name: string
@@ -142,7 +142,7 @@ const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
       <div className="drawer">
         <input id="sidebar" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
-          {isMd && <Sidebar2 ref={sidebarRef}>{renderSidebar()}</Sidebar2>}
+          {isMd && <Sidebar ref={sidebarRef}>{renderSidebar()}</Sidebar>}
 
           <div
             style={
@@ -195,7 +195,7 @@ const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
 
         <div className="drawer-side">
           <label htmlFor="sidebar" className="drawer-overlay" />
-          <Sidebar2>{renderSidebar()}</Sidebar2>
+          <Sidebar>{renderSidebar()}</Sidebar>
         </div>
       </div>
     </LayoutContext.Provider>

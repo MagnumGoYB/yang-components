@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { FC } from 'react'
 import { HiSelector } from 'react-icons/hi'
 
-import { Avatar } from '../Avatar'
+import Avatar from '../Avatar'
 import { User as UserProps } from './Layout'
 
 const User: FC<UserProps> = (user) => {
@@ -14,8 +14,8 @@ const User: FC<UserProps> = (user) => {
             className={classNames('inline-block h-10 w-10', {
               'bg-base-300': !user.avatar
             })}
-            src={user.avatar}
             alt={user.name}
+            src={user.avatar}
           />
           <div className="ml-3">
             <p className="text-base font-medium">{user.name}</p>
