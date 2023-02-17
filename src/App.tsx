@@ -1,15 +1,30 @@
 import { FC } from 'react'
-import { HiOutlineHome, HiSearch } from 'react-icons/hi'
+import { HiOutlineHome, HiOutlineMenu, HiSearch } from 'react-icons/hi'
 
 import { Layout } from '@/components/Layout'
 
 import { Avatar } from './components/Avatar'
+import { MenuItems } from './components/Menu'
 
-const navigation = [
+const navigation: MenuItems = [
   {
     data: [
-      { key: 1, name: 'Dashboard', icon: HiOutlineHome },
-      { key: 2, name: '搜索', href: '#', icon: HiSearch }
+      {
+        key: 1,
+        name: 'Dashboard',
+        icon: HiOutlineHome
+      },
+      { key: 2, name: '搜索', href: '#', icon: HiSearch },
+      {
+        key: 6,
+        name: 'Sub Menu',
+        icon: HiOutlineMenu,
+        subItems: [
+          { key: 601, name: 'Sub 1' },
+          { key: 602, name: 'Sub 2' },
+          { key: 603, name: 'Sub 3' }
+        ]
+      }
     ]
   },
   {
