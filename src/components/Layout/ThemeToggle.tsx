@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { HiOutlineCog, HiOutlineMoon, HiOutlineSun } from 'react-icons/hi'
 import { useMedia } from 'react-use'
 
@@ -13,6 +13,7 @@ const ThemeToggle: FC = () => {
     return theme
   })
 
+  const ref = useRef<HTMLUListElement>(null)
   const isDark = useMedia('(prefers-color-scheme: dark)')
 
   const setTheme = (value: string) => {
@@ -27,7 +28,10 @@ const ThemeToggle: FC = () => {
     }
   }
 
-  const onSelect = (value: string) => () => setTheme(value)
+  const onSelect = (value: string) => () => {
+    ref.current?.blur()
+    setTheme(value)
+  }
 
   const renderCurrentThemeIcon = () => {
     const cls = 'w-7 h-7'
@@ -56,6 +60,7 @@ const ThemeToggle: FC = () => {
       </div>
       <ul
         tabIndex={-1}
+        ref={ref}
         className="dropdown-content menu p-2 -mt-3 shadow bg-base-200 rounded-box w-40"
       >
         <li>
