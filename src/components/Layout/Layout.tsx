@@ -74,8 +74,10 @@ const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
   const renderSidebar = () => (
     <>
       <div className="flex-1 h-0">
-        <div className="btn btn-ghost btn-block normal-case flex-shrink-0 flex items-center justify-start px-4 h-16 rounded-none border-t-0 border-r-0 border-l-0 border-b border-base-300 hover:bg-base-100 hover:border-base-300">
-          {logo}
+        <div className="border-b border-base-300">
+          <div className="btn btn-ghost btn-block normal-case flex-shrink-0 flex items-center justify-start px-4 h-16 rounded-none hover:bg-base-100">
+            {logo}
+          </div>
         </div>
         <Menu
           className="mt-5 space-y-1 px-3"
@@ -152,31 +154,36 @@ const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
               'md:pl-64': !isCollapsed && !isHoverPower
             })}
           >
-            <header className="flex flex-shrink-0 h-16 bg-base-100 shadow-sm border-b border-base-300">
-              {isMd ? (
-                <button
-                  type="button"
-                  className={headerIconClassNames}
-                  ref={toggleButtonRef}
-                  onClick={onClickToggleButton}
-                >
-                  {isCollapsed ? (
-                    <HiOutlineChevronDoubleRight className="h-6 w-6" />
-                  ) : (
+            <div className="border-b border-base-300">
+              <header className="flex flex-shrink-0 h-16 bg-base-100 shadow-sm">
+                {isMd ? (
+                  <button
+                    type="button"
+                    className={headerIconClassNames}
+                    ref={toggleButtonRef}
+                    onClick={onClickToggleButton}
+                  >
+                    {isCollapsed ? (
+                      <HiOutlineChevronDoubleRight className="h-6 w-6" />
+                    ) : (
+                      <HiMenuAlt2 className="h-6 w-6" />
+                    )}
+                  </button>
+                ) : (
+                  <label
+                    htmlFor="sidebar"
+                    className={classNames(
+                      'drawer-button',
+                      headerIconClassNames
+                    )}
+                  >
                     <HiMenuAlt2 className="h-6 w-6" />
-                  )}
-                </button>
-              ) : (
-                <label
-                  htmlFor="sidebar"
-                  className={classNames('drawer-button', headerIconClassNames)}
-                >
-                  <HiMenuAlt2 className="h-6 w-6" />
-                </label>
-              )}
-              <ThemeToggle />
-              <div className="flex-1 px-4 flex justify-between">{header}</div>
-            </header>
+                  </label>
+                )}
+                <ThemeToggle />
+                <div className="flex-1 px-4 flex justify-between">{header}</div>
+              </header>
+            </div>
 
             <main>
               <div className="py-6">
