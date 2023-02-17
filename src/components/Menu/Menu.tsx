@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import { FC, Key, useState } from 'react'
+import { FC, Fragment, Key, useState } from 'react'
+import { HiChevronDown, HiChevronRight } from 'react-icons/hi'
 import { IconType } from 'react-icons'
 
 import { NativeProps } from '@/utils'
@@ -10,6 +11,7 @@ export type MenuItem = {
   icon?: IconType
   href?: string
   disabled?: boolean
+  subItems?: Omit<MenuItem, 'icon'>[]
 }
 
 export type MenuItems = {
@@ -41,8 +43,20 @@ const Menu: FC<MenuProps & NativeProps> = (props) => {
 
   const [active, setActive] = useState(defaultKey)
 
+  const isActiveSubs = (item: MenuItem, active?: Key) => {
+    if (!item.subItems || !active) return
+    return item.subItems.some((sub) => active === sub.key)
+  }
+
+  const isHasSubs = (item: MenuItem) => {
+    return !!item.subItems && item.subItems.length > 0
+  }
+
   const onClick = (key: MenuItem['key']) => {
-    setActive(key)
+    setActive(() => {
+      if (key === active) return undefined
+      return key
+    })
     onSelect?.(key)
   }
 
@@ -69,25 +83,61 @@ const Menu: FC<MenuProps & NativeProps> = (props) => {
             </>
           )}
           {item.data.map((it) => (
-            <li
-              key={it.key}
-              className={classNames({
-                bordered: item.bordered && active === it.key,
-                disabled: it.disabled
-              })}
-            >
-              <a
-                href={it.href}
-                className={classNames({ active: active === it.key })}
-                onClick={() => {
-                  if (it.disabled) return
-                  onClick(it.key)
-                }}
+            <Fragment key={it.key}>
+              <li
+                className={classNames({
+                  bordered: item.bordered && active === it.key,
+                  disabled: it.disabled
+                })}
               >
-                {it.icon && <it.icon className="h-5 w-5" />}
-                {it.name}
-              </a>
-            </li>
+                <a
+                  href={isHasSubs(it) ? undefined : it.href}
+                  className={classNames({
+                    active: active === it.key,
+                    'pr-8': isHasSubs(it)
+                  })}
+                  onClick={() => {
+                    if (it.disabled) return
+                    onClick(it.key)
+                  }}
+                >
+                  {it.icon && <it.icon className="h-5 w-5" />}
+                  {it.name}
+                  {isHasSubs(it) && (
+                    <>
+                      {active === it.key || isActiveSubs(it, active) ? (
+                        <HiChevronDown className="h-4 w-4 absolute right-4" />
+                      ) : (
+                        <HiChevronRight className="h-4 w-4 absolute right-4" />
+                      )}
+                    </>
+                  )}
+                </a>
+              </li>
+              {(active === it.key || isActiveSubs(it, active)) &&
+                isHasSubs(it) && (
+                  <div className="ml-8">
+                    {it.subItems?.map((sub) => {
+                      return (
+                        <li key={sub.key}>
+                          <a
+                            href={sub.href}
+                            className={classNames({
+                              active: active === sub.key
+                            })}
+                            onClick={() => {
+                              if (sub.disabled) return
+                              onClick(sub.key)
+                            }}
+                          >
+                            {sub.name}
+                          </a>
+                        </li>
+                      )
+                    })}
+                  </div>
+                )}
+            </Fragment>
           ))}
         </ul>
       ))}
