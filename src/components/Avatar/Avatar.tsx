@@ -1,17 +1,17 @@
 import classNames from 'classnames'
 import { FC } from 'react'
 
-import { NativeProps } from '@/utils'
+import { NativeProps, XOR } from '@/utils/typings'
 
-type AvatarProps = {
-  src?: string
-  alt?: string
+export type AvatarProps = {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   shape?: 'circle' | 'square'
   onClick?: () => void
-}
+  _isGroupPlaceholder?: boolean
+} & XOR<{ src: string; alt?: string }, { alt: string; src?: string }> &
+  NativeProps
 
-const Avatar: FC<AvatarProps & NativeProps> = (props) => {
+const Avatar: FC<AvatarProps> = (props) => {
   const {
     src,
     alt,
@@ -19,7 +19,8 @@ const Avatar: FC<AvatarProps & NativeProps> = (props) => {
     shape = 'circle',
     onClick,
     className,
-    style
+    style,
+    _isGroupPlaceholder = false
   } = props
 
   const isCustomColor = className?.match(/bg-|text-/)?.length
@@ -51,7 +52,7 @@ const Avatar: FC<AvatarProps & NativeProps> = (props) => {
               'text-3xl': size === 'xl'
             })}
           >
-            {alt?.slice(0, 1).toUpperCase()}
+            {_isGroupPlaceholder ? '+99' : alt?.slice(0, 1).toUpperCase()}
           </span>
         )}
       </div>
