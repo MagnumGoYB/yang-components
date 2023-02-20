@@ -1,6 +1,7 @@
 import { FC, useRef, useState } from 'react'
 import { HiOutlineCog, HiOutlineMoon, HiOutlineSun } from 'react-icons/hi'
-import { useMedia } from 'react-use'
+
+import { useMedia } from '@/hooks'
 
 const ThemeToggle: FC = () => {
   const iconClass = 'w-5 h-5'

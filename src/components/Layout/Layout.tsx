@@ -10,10 +10,11 @@ import {
   useState
 } from 'react'
 import { HiMenuAlt2, HiOutlineChevronDoubleRight } from 'react-icons/hi'
-import { useMedia } from 'react-use'
 
 import { sleep } from '@/utils'
+import { useMedia } from '@/hooks'
 
+import Avatar from '../Avatar'
 import Menu, { MenuItem, MenuItems } from '../Menu'
 import Sidebar from './Sidebar'
 import ThemeToggle from './ThemeToggle'
@@ -26,7 +27,7 @@ export type User = {
 }
 
 export type LayoutProps = {
-  logo?: ReactNode
+  title?: string | ReactNode
   header?: ReactNode
   menu: MenuItems
   menuDefaultKey?: MenuItem['key']
@@ -58,7 +59,7 @@ export const LayoutContext = createContext<LayoutContextType>({
 })
 
 const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
-  const { logo, menu, menuDefaultKey, user, header, children } = props
+  const { title, menu, menuDefaultKey, user, header, children } = props
 
   const sidebarRef = useRef<HTMLDivElement>(null)
   const toggleButtonRef = useRef<HTMLButtonElement>(null)
@@ -74,11 +75,25 @@ const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
   const renderSidebar = () => (
     <>
       <div className="flex-1 h-0">
-        <div className="border-b border-base-300">
-          <div className="btn btn-ghost btn-block normal-case flex-shrink-0 flex items-center justify-start px-4 h-16 rounded-none hover:bg-base-100">
-            {logo}
+        {title && (
+          <div className="border-b border-base-300">
+            <div className="btn btn-ghost btn-block normal-case flex-shrink-0 flex items-center justify-start px-4 h-16 rounded-none hover:bg-base-100">
+              {typeof title === 'string' ? (
+                <>
+                  <Avatar
+                    shape="square"
+                    size="sm"
+                    alt={title}
+                    className="bg-primary text-primary-content font-semibold"
+                  />
+                  <span className="font-semibold font-mono ml-3">{title}</span>
+                </>
+              ) : (
+                title
+              )}
+            </div>
           </div>
-        </div>
+        )}
         <Menu
           className="mt-5 space-y-1 px-3"
           defaultKey={menuDefaultKey}
