@@ -3,7 +3,7 @@ import { FC, Fragment, Key, useState } from 'react'
 import { HiChevronDown, HiChevronRight } from 'react-icons/hi'
 import { IconType } from 'react-icons'
 
-import { NativeProps } from '@/utils/typings'
+import { NativeProps } from '../../utils/typings'
 
 export type MenuItem = {
   key: Key

@@ -1,8 +1,7 @@
 import { FC } from 'react'
 
-import { XOR } from '@/utils/typings'
-
 import Avatar, { AvatarProps } from './Avatar'
+import { XOR } from '../../utils/typings'
 
 type GroupProps = {
   size?: AvatarProps['size']

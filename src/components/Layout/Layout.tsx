@@ -11,14 +11,13 @@ import {
 } from 'react'
 import { HiMenuAlt2, HiOutlineChevronDoubleRight } from 'react-icons/hi'
 
-import { sleep } from '@/utils'
-import { useMedia } from '@/hooks'
-
 import Avatar from '../Avatar'
 import Menu, { MenuItem, MenuItems } from '../Menu'
 import Sidebar from './Sidebar'
 import ThemeToggle from './ThemeToggle'
 import User from './User'
+import { sleep } from '../../utils'
+import { useMedia } from '../../hooks'
 
 export type User = {
   name: string

@@ -9,9 +9,8 @@ import {
   useState
 } from 'react'
 
-import { sleep } from '@/utils'
-
 import { LayoutContext } from './Layout'
+import { sleep } from '../../utils'
 
 const Sidebar = forwardRef<HTMLDivElement, PropsWithChildren>((props, ref) => {
   const { children } = props

@@ -6,13 +6,7 @@
     "declaration": true,
     "jsx": "react-jsx",
     "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    }
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/index.ts"

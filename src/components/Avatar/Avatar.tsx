@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { FC } from 'react'
 
-import { NativeProps, XOR } from '@/utils/typings'
+import { NativeProps, XOR } from '../../utils/typings'
 
 export type AvatarProps = {
   size?: 'sm' | 'md' | 'lg' | 'xl'
