@@ -22,9 +22,8 @@
     "build:ts": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "clean": "rimraf ./dist",
     "husky": "husky install || exit 0",
-    "preinstall": "only-allow pnpm",
-    "postinstall": "pnpm husky && pnpm pretty",
     "lint": "eslint --ext .ts,.tsx --fix --quiet ./src",
+    "prepare": "only-allow pnpm && pnpm husky && pnpm pretty",
     "pretty": "pretty-quick && prettier-package-json --write",
     "prepublishOnly": "pnpm lint && pnpm pretty && pnpm build"
   },
