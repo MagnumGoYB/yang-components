@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import {
   FC,
-  PropsWithChildren,
   ReactNode,
   createContext,
   useCallback,
@@ -57,7 +56,7 @@ export const LayoutContext = createContext<LayoutContextType>({
   minWidth
 })
 
-const Layout: FC<LayoutProps & PropsWithChildren> = (props) => {
+const Layout: FC<LayoutProps> = (props) => {
   const { title, menu, menuDefaultKey, user, header, children } = props
 
   const sidebarRef = useRef<HTMLDivElement>(null)
