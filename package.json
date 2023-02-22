@@ -31,6 +31,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
+    "autoprefixer": "^10.4.13",
     "classnames": "^2.3.2",
     "daisyui": "^2.50.0",
     "postcss": "^8.4.21",
@@ -55,7 +56,6 @@
     "@types/react-dom": "^16.9.18",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
-    "autoprefixer": "^10.4.13",
     "cross-env": "^7.0.3",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
