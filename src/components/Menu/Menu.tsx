@@ -1,14 +1,13 @@
 import classNames from 'classnames'
-import { FC, Fragment, Key, useState } from 'react'
+import { FC, Fragment, Key, ReactElement, cloneElement, useState } from 'react'
 import { HiChevronDown, HiChevronRight } from 'react-icons/hi'
-import { IconType } from 'react-icons'
 
 import { NativeProps } from '../../utils/typings'
 
 export type MenuItem = {
   key: Key
   name: string
-  icon?: IconType
+  icon?: ReactElement
   href?: string
   disabled?: boolean
   subItems?: Omit<MenuItem, 'icon'>[]
@@ -101,7 +100,7 @@ const Menu: FC<MenuProps & NativeProps> = (props) => {
                     onClick(it.key)
                   }}
                 >
-                  {it.icon && <it.icon className="h-5 w-5" />}
+                  {it.icon && cloneElement(it.icon, { className: 'h-5 w-5' })}
                   {it.name}
                   {isHasSubs(it) && (
                     <>

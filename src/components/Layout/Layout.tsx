@@ -30,6 +30,7 @@ export type LayoutProps = {
   menu: MenuItems
   menuDefaultKey?: MenuItem['key']
   user?: User
+  children?: ReactNode
 }
 
 type LayoutContextType = {
