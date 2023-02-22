@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { FC, Fragment, Key, ReactElement, cloneElement, useState } from 'react'
 import { HiChevronDown, HiChevronRight } from 'react-icons/hi'
 
-import { NativeProps } from '../../utils/typings'
+import { NativeProps } from '../../utils'
 
 export type MenuItem = {
   key: Key
