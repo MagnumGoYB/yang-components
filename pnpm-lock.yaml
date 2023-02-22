@@ -52,7 +52,9 @@ specifiers:
 dependencies:
   classnames: 2.3.2
   daisyui: 2.50.1_by5iqycgvtroytm54ytclj4zzi
+  postcss: 8.4.21
   react-icons: 4.7.1_react@16.8.6
+  tailwindcss: 3.2.7_aesdjsunmf4wiehhujt67my7tu
 
 devDependencies:
   '@commitlint/cli': 17.4.4
@@ -82,7 +84,6 @@ devDependencies:
   husky: 8.0.3
   lint-staged: 13.1.2
   only-allow: 1.1.1
-  postcss: 8.4.21
   prettier: 2.8.4
   prettier-package-json: 2.8.0
   prettier-plugin-sort-imports-by-identifier: 3.3.4_prettier@2.8.4
@@ -95,7 +96,6 @@ devDependencies:
   rollup-plugin-filesize: 9.1.2
   rollup-plugin-postcss: 4.0.2_aesdjsunmf4wiehhujt67my7tu
   rollup-plugin-tsc-alias: 1.1.2_rollup@3.17.2
-  tailwindcss: 3.2.7_aesdjsunmf4wiehhujt67my7tu
   tsc-alias: 1.8.2
   tslib: 2.5.0
   typescript: 4.9.5
@@ -1319,6 +1319,7 @@ packages:
       acorn: 7.4.1
       acorn-walk: 7.2.0
       xtend: 4.0.2
+    dev: false
 
   /acorn-walk/7.2.0:
     resolution:
@@ -1326,6 +1327,7 @@ packages:
         integrity: sha512-OPdCF6GsMIP+Az+aWfAAOEt2/+iVDKE7oy6lJ098aoe59oAmK76qV6Gw60SbZ8jHuG2wH058GF4pLFbYamYrVA==
       }
     engines: { node: '>=0.4.0' }
+    dev: false
 
   /acorn-walk/8.2.0:
     resolution:
@@ -1341,6 +1343,7 @@ packages:
       }
     engines: { node: '>=0.4.0' }
     hasBin: true
+    dev: false
 
   /acorn/8.8.2:
     resolution:
@@ -1520,6 +1523,7 @@ packages:
       {
         integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==
       }
+    dev: false
 
   /argparse/2.0.1:
     resolution:
@@ -1899,6 +1903,7 @@ packages:
         integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
       }
     engines: { node: '>= 6' }
+    dev: false
 
   /camelcase-keys/6.2.2:
     resolution:
@@ -2639,6 +2644,7 @@ packages:
       {
         integrity: sha512-hsBd2qSVCRE+5PmNdHt1uzyrFu5d3RwmFDKzyNZMFq/EwDNJF7Ee5+D5oEKF0hU6LhtoUF1macFvOe4AskQC1Q==
       }
+    dev: false
 
   /delayed-stream/1.0.0:
     resolution:
@@ -2674,12 +2680,14 @@ packages:
       acorn-node: 1.8.2
       defined: 1.0.1
       minimist: 1.2.8
+    dev: false
 
   /didyoumean/1.2.2:
     resolution:
       {
         integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==
       }
+    dev: false
 
   /diff/4.0.2:
     resolution:
@@ -2703,6 +2711,7 @@ packages:
       {
         integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
       }
+    dev: false
 
   /doctrine/2.1.0:
     resolution:
@@ -5582,6 +5591,7 @@ packages:
         integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==
       }
     engines: { node: '>= 6' }
+    dev: false
 
   /object-inspect/1.12.3:
     resolution:
@@ -5945,6 +5955,7 @@ packages:
         integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
       }
     engines: { node: '>=0.10.0' }
+    dev: false
 
   /pify/5.0.0:
     resolution:
@@ -6067,6 +6078,7 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
+    dev: false
 
   /postcss-js/4.0.1_postcss@8.4.21:
     resolution:
@@ -6079,6 +6091,7 @@ packages:
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.21
+    dev: false
 
   /postcss-load-config/3.1.4_aesdjsunmf4wiehhujt67my7tu:
     resolution:
@@ -6269,6 +6282,7 @@ packages:
     dependencies:
       postcss: 8.4.21
       postcss-selector-parser: 6.0.11
+    dev: false
 
   /postcss-normalize-charset/5.1.0_postcss@8.4.21:
     resolution:
@@ -6683,6 +6697,7 @@ packages:
         integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
       }
     engines: { node: '>=10' }
+    dev: false
 
   /randombytes/2.1.0:
     resolution:
@@ -6744,6 +6759,7 @@ packages:
       }
     dependencies:
       pify: 2.3.0
+    dev: false
 
   /read-package-json-fast/2.0.3:
     resolution:
@@ -7726,6 +7742,7 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
+    dev: false
 
   /tar/6.1.13:
     resolution:
@@ -8226,6 +8243,7 @@ packages:
         integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
       }
     engines: { node: '>=0.4' }
+    dev: false
 
   /y18n/5.0.8:
     resolution:
